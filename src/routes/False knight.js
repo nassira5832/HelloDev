@@ -51,4 +51,36 @@ router.post("/Falseknight",async(req,res)=>{
             res.json("error : ", error) ;
       }
 })
+// retrieving one game character
+router.get("/FalseKnight/:id", async(req,res)=>{
+      const {id} = req.params;
+      try {
+            const myCharacter = await character.findOne({ _id: id });
+            res.json(myCharacter )
+      }catch(error){
+            res.json("error : ", error) ;
+      }
+})
+// retrieving game characters
+router.get("/FalseKnight", async(req,res)=>{
+      const page =req.quary.page ;
+      const limite = req.quary.limite;
+      try {
+            const skip = (page-1)*limite
+            const characters= await character.find ()
+            .skip(skip)
+            .limit(limit)
+            const totalCount = await Character.countDocuments();
+            const totalPages = Math.ceil(totalCount / limit);
+            const response = {
+              characters,   
+              page,         
+              totalPages,   
+              totalCount    
+            };
+      } catch (error) {
+            console.log("erreur:", error);
+      }
+
+})
 
