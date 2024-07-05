@@ -22,6 +22,7 @@ app.use(cors());
 app.use(requestLogger);
 
 
+//TODO: Create a router "/file"
 // app.get("/file", async function (req, res) {
 //     const filesData = await fileModel.find({});
 
