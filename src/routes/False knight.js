@@ -1,6 +1,8 @@
-const router= express.router;
+const express=require("express")
+const mongoose=require("mongoose")
+const router= express.Router();
 const character = require ("../models/False-knight-game-character");
-const {validateRequestBody}= require("../middlewares/False knight")
+
 // adding 
 router.post("/Falseknight",async(req,res)=>{
       const {name , level }=req.body;
@@ -70,7 +72,7 @@ router.get("/FalseKnight/?page , limit", async(req,res)=>{
             const characters= await character.find ()
             .skip(skip)
             .limit(limit)
-            const totalCount = await Character.countDocuments();
+            const totalCount = await character.countDocuments();
             const totalPages = Math.ceil(totalCount / limit);
             const response = {
               characters,   
