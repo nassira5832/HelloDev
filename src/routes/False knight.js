@@ -1,8 +1,8 @@
 const router= express.router;
 const character = require ("../models/False-knight-game-character");
 
-
-router.post("/False knight",(req,res)=>{
+// adding 
+router.post("/Falseknight",async(req,res)=>{
       const {name , level }=req.body;
       if (!name || !level) {
             res.json("Name and level are required ")
@@ -12,7 +12,7 @@ router.post("/False knight",(req,res)=>{
                   name: name,
                   level: level
             })
-        newCharacter.save(); 
+        await newCharacter.save(); 
         res.json("Character saved successfully");
 
       } catch (error) {
@@ -20,3 +20,35 @@ router.post("/False knight",(req,res)=>{
       }
       
 })
+// updating 
+ router.put("/FalseKnight/:id", async(req,res)=>{
+      const {name , level} = req.body;
+      const {id} = req.params;
+      try {
+            const myCharacter = await character.findOne({ _id: id });
+            
+    if (!myCharacter) {
+      return res.status(404).send('Character not found');
+    }
+    if (!name || !level) {
+      return  res.json("Name and level are required ")
+    }
+    myCharacter.name=name;
+    myCharacter.level=level;
+    await myCharacter.save();
+      } catch (error) {
+           res.json("error : ", error) ;
+      }
+ })
+ // deleting 
+ router.delete("/FalseKnight/:id", async(req,res)=>{
+      const {id} = req.params;
+      try {
+            const myCharacter = await character.findOne({ _id: id });
+            myCharacter.delete();
+            res.json("character deleted successfully ")
+      }catch(error){
+            res.json("error : ", error) ;
+      }
+})
+
