@@ -1,6 +1,6 @@
 const router= express.router;
 const character = require ("../models/False-knight-game-character");
-
+const {validateRequestBody}= require("../middlewares/False knight")
 // adding 
 router.post("/Falseknight",async(req,res)=>{
       const {name , level }=req.body;
@@ -62,9 +62,9 @@ router.get("/FalseKnight/:id", async(req,res)=>{
       }
 })
 // retrieving game characters
-router.get("/FalseKnight", async(req,res)=>{
-      const page =req.quary.page ;
-      const limite = req.quary.limite;
+router.get("/FalseKnight/?page , limit", async(req,res)=>{
+      const page =parseInt(req.quary.page) ;
+      const limit = parseInt(req.quary.limit);
       try {
             const skip = (page-1)*limite
             const characters= await character.find ()
@@ -84,3 +84,4 @@ router.get("/FalseKnight", async(req,res)=>{
 
 })
 
+module.exports = router;

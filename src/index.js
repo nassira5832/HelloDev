@@ -1,6 +1,16 @@
 const express=require("express");
 const mongoose=require("express");
 const app=express();
+const {handleNotFound, handleInternalServerError, validateCharacter}= require("./middlewares/False knight")
+const routes= require("./routes/False knight")
+
+//challenge01
+app.use(express.json());
+app.use("/api",validateCharacter,routes);
+app.use(handleNotFound);
+app.use(handleInternalServerError);
+//challenge02
+
 
 
 
