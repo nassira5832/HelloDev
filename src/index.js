@@ -61,21 +61,21 @@ io.on("connection",(socket)=>{
     socket.on("playing", (e)=>{
         console.log(playingArray)
         console.log(e.valeur)
-        if(e.valeur=="O"){
+        if(e.valeur=="X"){
               
             let objTochange=playingArray.find(obj=>obj.p1.name1===e.name)
             objTochange.p1.move1=e.id
             objTochange.sum=objTochange.sum+1
 
         }else{
-            if(e.valeur=="X"){
+            if(e.valeur=="O"){
                 let objTochange=playingArray.find(obj=>obj.p2.name2===e.name)
                 objTochange.p2.move2=e.id
                 objTochange.sum=objTochange.sum+1
 
             }
         }  
-   
+       io.emit("playing",{allPlayers:playingArray})
         
     })
 })
