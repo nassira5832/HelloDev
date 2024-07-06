@@ -3,9 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+    <title>tic tac teo</title>
+    <link rel="stylesheet" href="style.css">
     
+</head>
+<body >
+    <h1 > tic-tac-teo </h1>
+    <div  id="players">
+        <p id="usercont"> you : <span id="user"></span></p>
+        <p id="oppnamecont"> opponent: <span id="oppname"></span></p>
+    </div>
+    <br>
+    <p id="valuecont" > you are playing as: <span id="value"></span></p>
+    <br>
+    <p id="whosTurn" > X's turn </p>
+    <div id="myname" style="text-align: center;">
+        <p id="enter-name" >inter your name </p>
+        <input type="text" placeholder="name" id="name"  autocomplete="off" >
+    </div>
+    <div style="text-align: center; display: block;">
+    <button id="find" > search for a player</button>
+    <br>
+    <img src="Loading.gif" alt="loading " id="loading">
+</div>
+    <div id="bigcont">
+        <div id="cont">
+            <button id="bt1" class="btn"></button>
+            <button id="bt2" class="btn"></button>
+            <button id="bt3" class="btn"></button>
+        </div>
+            <div id="cont">
+            <button id="bt4" class="btn"></button>
+            <button id="bt5" class="btn"></button>
+            <button id="bt6" class="btn"></button>
+        </div>
+        <div id="cont">
+            <button id="bt7" class="btn"></button>
+            <button id="bt8" class="btn"></button>
+            <button id="bt9" class="btn"></button>
+        </div>
+    </div>
+    
+        
+        
+        
 </body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("bigcont").style.display = "none";
+    document.getElementById("usercont").style.display = "none";
+    document.getElementById("oppnamecont").style.display = "none";
+    document.getElementById("valuecont").style.display = "none";
+    document.getElementById("whosTurn").style.display = "none";
+   const socket=io();
+   let name 
+    document.getElementById("find").addEventListener("click", function(){
+    name= document.getElementById("name").value
+    if(!name ||name ==""){
+        alert("enter your name ")
+    }else {
+        socket.emit("find",{name:name})
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("find").disabled=true
+    }
+    })
+   
+        socket.on("find", (e) => {
+    let allPlayersArray = e.allPlayers;
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("name").style.display = "none";
+    document.getElementById("find").style.display = "none";
+    document.getElementById("enter-name").style.display = "none";
+    document.getElementById("bigcont").style.display = "block";
+    document.getElementById("usercont").style.display = "block";
+    document.getElementById("oppnamecont").style.display = "block";
+    document.getElementById("valuecont").style.display = "block";
+    document.getElementById("whosTurn").style.display = "block";
+    document.getElementById("whosTurn").innerText = "X's turn";
+
+    let oppName;
+    let value;
+    const foundObj = allPlayersArray.find(obj => obj.p1.name1 == `${name}` || obj.p2.name2 == `${name}`);
+    foundObj.p1.name1==`${name}`? oppName=foundObj.p1.name1 : oppName=foundObj.p2.name2
+    foundObj.p1.name1==`${name}`? value=foundObj.p1.value1 : value=foundObj.p2.value2
+    document.getElementById("oppname").innerText=oppName
+    document.getElementById("value").innerText=value
+    document.getElementById("user").innerText=name
+    
+});
+
+  document.querySelectorAll(".btn").forEach(e=>{
+    e.addEventListener("click", function(){
+        let valeur = document.getElementById("value").innerText
+        e.innerText=valeur
+        socket.emit("playing",{valeur:valeur, id:e.id, name:name} )
+    
+  socket.on("playing", (e) => {
+    const foundObject = (e.allPlayers).find(obj => obj.p1.name1 == `${name}` || obj.p2.name2 == `${name}`);
+   
+     p1id=foundObj.p1.move1
+     p2id=foundObj.p2.move2
+    
+    if((foundObject.sum)%2==0){
+        document.getElementById("whosTurn").innerText = "O's turn";
+    }else{
+        document.getElementById("whosTurn").innerText = "X's turn";
+    }
+    if (p1id !=''){
+        document.getElementById(`${p1id}`).innerText="X"
+        document.getElementById(`${p1id}`).disabled=true
+        document.getElementById(`${p1id}`).innerText="X"
+        document.getElementById(`${p1id}`).style.color="black"
+    }
+  })})
+})
+</script>
 </html>

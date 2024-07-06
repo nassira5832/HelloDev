@@ -65,8 +65,8 @@ router.get("/FalseKnight/:id", async(req,res)=>{
 })
 // retrieving game characters
 router.get("/FalseKnight/?page , limit", async(req,res)=>{
-      const page =parseInt(req.quary.page) ;
-      const limit = parseInt(req.quary.limit);
+      const page =parseInt(req.query.page) ;
+      const limit = parseInt(req.query.limit);
       try {
             const skip = (page-1)*limite
             const characters= await character.find ()

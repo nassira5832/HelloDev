@@ -1,0 +1,57 @@
+body {
+    margin: 10%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bolder;
+}
+h1{
+    text-align: center;
+     color: blueviolet;
+     size: 28px;
+}
+p{
+    size: 24px;
+}
+#players{
+    display: flex;
+    justify-content: space-between;
+}
+
+#valuecont{
+    text-align: center;
+}
+#whosTurn{
+    text-align: center;
+}
+#enter-name{
+    text-align: center;
+}
+img{
+    width: 100px;
+    height: auto;
+}
+button{
+    margin-top: 10px;
+    border-radius: 30px;
+}
+#find{
+    color: white;
+    background-color: black;
+    padding: 10px 15px ;
+    
+}
+
+#bigcont{
+   margin-left: 40%;
+   margin-right: 40%;
+}
+#cont{
+    display: flex;
+    text-align: center;
+}
+#cont button{
+    width: 80px;
+    height: 80px;
+}
+.btn:hover{
+    background-color: rgb(51, 51, 83);
+}
