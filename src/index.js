@@ -3,29 +3,35 @@ const mongoose=require("mongoose");
 const {handleNotFound, handleInternalServerError, validateRequestBody}= require("./middlewares/False knight")
 const routes= require("./routes/False knight")
 const {Server}= require("socket.io")
-const nodemon = require("nodemon")
-const appAPI=express();
+const cors = require("cors")
+const app=express();
 const appSocket=express();
 const path= require("path")
 const http =require("http")
+const routesChallenge03=require("./routes/MantisLords")
+const{handleNotFoundCh3, handleInternalServerErrorCh3, validatePutRequest,validatePostRequest}=require("./middlewares/MantisLords")
 // challenge01
-appAPI.use(express.json());
-appAPI.use(validateRequestBody);
-appAPI.use("/api", routes);
-appAPI.use(handleNotFound);
-appAPI.use(handleInternalServerError);
+app.use(express.json());
+app.use(validateRequestBody);
+app.use("/api", routes);
+app.use(handleNotFound);
+app.use(handleInternalServerError);
 
 // challenge02
 const portAPI = 5000;
-appAPI.listen(portAPI, () => {
+app.listen(portAPI, () => {
     console.log(`Serveur API connecté au port ${portAPI}`);
 });
 
 // challenge03 /*MantisLords*/
+
+
 // crée un serveur HTTP qui utilise Express pour gérer les requêtes
 const serverSocket = http.createServer(appSocket);
 // attacher socket.io à mon serveur HTTP
 const io = new Server(serverSocket);
+
+
 
 appSocket.use(express.static(path.resolve("../public")));
 
@@ -80,6 +86,15 @@ io.on("connection",(socket)=>{
         playingArray=playingArray.filter(obj=>obj.p1.name1 !== e.name)
     })
 })
+
+appSocket.use(express.json());
+appSocket.use(validatePutRequest);
+appSocket.use(validatePostRequest);
+appSocket.use("/api", routesChallenge03);
+appSocket.use(handleInternalServerErrorCh3);
+appSocket.use(handleNotFoundCh3);
+
+
 appSocket.get("/", (req, res) => {
     res.sendFile(path.resolve( "../public/index.html"));
 });
