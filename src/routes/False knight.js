@@ -64,7 +64,7 @@ router.get("/FalseKnight/:id", async(req,res)=>{
       }
 })
 // retrieving game characters
-router.get("/FalseKnight", async(req,res)=>{
+router.get("/FalseKnight/? page , limi", async(req,res)=>{
       const page =parseInt(req.query.page)|| 1 ;
       const limit = parseInt(req.query.limit)|| 10;
       try {
@@ -80,6 +80,7 @@ router.get("/FalseKnight", async(req,res)=>{
               totalPages,   
               totalCount    
             };
+            res.json(response)
       } catch (error) {
             console.log("erreur:", error);
       }

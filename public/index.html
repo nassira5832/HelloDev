@@ -23,7 +23,7 @@
     <div style="text-align: center; display: block">
       <button id="find">search for a player</button>
       <br />
-      <img src="Loading.gif" alt="loading " id="loading" />
+      <img style="margin-left: 50%;" src="Loading.gif" alt="loading " id="loading" />
     </div>
     <div id="bigcont">
       <div id="cont">
@@ -45,6 +45,7 @@
   </body>
   <script src="/socket.io/socket.io.js"></script>
   <script>
+    import axios from 'axios';
     document.getElementById("loading").style.display = "none";
     document.getElementById("bigcont").style.display = "none";
     document.getElementById("usercont").style.display = "none";
@@ -76,6 +77,17 @@
       document.getElementById("valuecont").style.display = "block";
       document.getElementById("whosTurn").style.display = "block";
       document.getElementById("whosTurn").innerText = "X's turn";
+      
+
+      async function ajouterplayer(name, value){
+        try {
+           const response= await axios.post("/",{name:name, value:value})
+           console.log(response.data)
+         } catch (error) {
+          console.log("erreur:", error)
+         }
+      }
+
 
       let oppName;
       let value;
@@ -91,6 +103,8 @@
       document.getElementById("oppname").innerText = oppName;
       document.getElementById("value").innerText = value;
       document.getElementById("user").innerText = name;
+      ajouterplayer(name, value)
+        
     });
 
     document.querySelectorAll(".btn").forEach((e) => {

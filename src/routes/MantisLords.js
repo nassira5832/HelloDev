@@ -62,7 +62,7 @@ router.get("/:id", async(req, res)=>{
     }
 })
 //get all players avec pagination
-router.get("/", async(req, res)=>{
+router.get("/players/? page , limit", async(req, res)=>{
       const page =parseInt(req.query.page)|| 1 ;
       const limit = parseInt(req.query.limit)|| 10;
       try {
@@ -78,6 +78,7 @@ router.get("/", async(req, res)=>{
               totalPages,   
               totalCount    
             };
+            res.json(response)
       } catch (error) {
             console.log("erreur:", error);
       }
