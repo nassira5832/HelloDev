@@ -59,8 +59,6 @@ io.on("connection",(socket)=>{
         }
     })
     socket.on("playing", (e)=>{
-        console.log(playingArray)
-        console.log(e.valeur)
         if(e.valeur=="X"){
               
             let objTochange=playingArray.find(obj=>obj.p1.name1===e.name)
@@ -78,12 +76,10 @@ io.on("connection",(socket)=>{
        io.emit("playing",{allPlayers:playingArray})
         
     })
+    socket.on("gameOver",(e)=>{
+        playingArray=playingArray.filter(obj=>obj.p1.name1 !== e.name)
+    })
 })
-
-
-
-
-
 appSocket.get("/", (req, res) => {
     res.sendFile(path.resolve( "../public/index.html"));
 });
